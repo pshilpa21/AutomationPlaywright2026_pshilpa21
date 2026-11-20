@@ -107,6 +107,10 @@ npm run test:security
 
 The security profile runs a ZAP passive baseline scan, a ZAP active full scan, and an npm dependency audit. ZAP reports are written as timestamped HTML and JSON files under `artifacts/security/`; the dependency audit is saved as timestamped JSON. Use the baseline scan alone for passive findings, the full scan for active checks, or the dependency command independently. Read [the security testing guide](tests/security/README.md) before using the active scan.
 
+## Jenkins pipeline
+
+The root-level `Jenkinsfile` is the pipeline definition. Its starter pipeline checks out the repository, verifies Node.js/npm/Docker Compose, installs dependencies and Chromium, runs the UI and API suites, and archives Playwright/Allure artifacts. Configure Jenkins to load it using **Pipeline script from SCM** and point it at this repository. The Jenkins agent needs Node.js 22+, Docker Compose, and permission to access a running Docker Engine.
+
 Useful commands:
 
 ```powershell
@@ -143,6 +147,7 @@ AI analysis may send failure summaries to the configured model provider. Review 
 
 ```text
 compose.yaml                 Local Juice Shop target and optional k6 runner
+Jenkinsfile                  Starter Declarative Pipeline for UI/API CI
 playwright.config.ts         Browser, timeouts, artifacts, reporters
 tests/ui/                    Deterministic UI checks
 tests/api/                   API contract, validation, auth, and behavior checks
