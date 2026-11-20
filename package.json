@@ -1,0 +1,62 @@
+{
+  "name": "juiceshop-ai-first-ui-automation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-first, reviewable UI automation framework for the local OWASP Juice Shop training application.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "setup": "npm run setup:browsers",
+    "setup:browsers": "playwright install chromium",
+    "env:up": "docker compose up --detach --wait --wait-timeout 120 juice-shop",
+    "env:status": "docker compose ps",
+    "env:logs": "docker compose logs --tail=100 juice-shop",
+    "env:stop": "docker compose stop juice-shop",
+    "test:ui": "tsx scripts/run-ui.ts --project=chromium-ui",
+    "test:ui:headed": "tsx scripts/run-ui.ts --project=chromium-ui --headed",
+    "test:ui:ai": "tsx scripts/run-ui.ts --project=chromium-ui --ai-triage",
+    "test:ui:raw": "playwright test --project=chromium-ui",
+    "test:api": "tsx scripts/run-ui.ts --project=api",
+    "test:api:raw": "playwright test --project=api",
+    "test:parallel": "tsx scripts/run-ui.ts --project=chromium-ui --project=api",
+    "test:a11y": "tsx scripts/run-ui.ts --project=accessibility",
+    "test:a11y:headed": "tsx scripts/run-ui.ts --project=accessibility --headed",
+    "test:a11y:raw": "playwright test --project=accessibility",
+    "setup:compat:browsers": "playwright install chromium firefox webkit",
+    "test:compat": "tsx scripts/run-ui.ts --project=compat-chromium-desktop --project=compat-firefox-desktop --project=compat-webkit-desktop --project=compat-chromium-mobile",
+    "test:compat:raw": "playwright test --project=compat-chromium-desktop --project=compat-firefox-desktop --project=compat-webkit-desktop --project=compat-chromium-mobile",
+    "test:perf": "tsx scripts/run-performance.ts --profile=smoke",
+    "test:perf:smoke": "tsx scripts/run-performance.ts --profile=smoke",
+    "test:perf:load": "tsx scripts/run-performance.ts --profile=load",
+    "test:perf:stress": "tsx scripts/run-performance.ts --profile=stress",
+    "test:perf:spike": "tsx scripts/run-performance.ts --profile=spike",
+    "test:perf:soak": "tsx scripts/run-performance.ts --profile=soak",
+    "test:security": "tsx scripts/run-security.ts --profile=all",
+    "test:security:baseline": "tsx scripts/run-security.ts --profile=baseline",
+    "test:security:full": "tsx scripts/run-security.ts --profile=full",
+    "test:security:dependencies": "tsx scripts/run-security.ts --profile=dependencies",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "ai:plan": "tsx scripts/plan-ui-scenario.ts",
+    "ai:triage": "tsx scripts/triage-failures.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "1.65.1",
+    "@types/node": "26.6.6",
+    "allure": "3.33.0",
+    "allure-playwright": "3.15.0",
+    "dotenv": "18.0.1",
+    "playwright": "1.65.1",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "zod": "4.6.7"
+  },
+  "overrides": {
+    "glob": "14.0.6",
+    "minimatch": "11.0.9"
+  }
+}

@@ -1,0 +1,22 @@
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    container_name: juiceshop-ai-ui-target
+    ports:
+      - "127.0.0.1:${JUICE_SHOP_PORT:-3001}:3000"
+    restart: unless-stopped
+
+  k6:
+    image: grafana/k6:2.4.0
+    profiles: ["performance"]
+    environment:
+      BASE_URL: http://juice-shop:3000
+    volumes:
+      - ./tests/performance:/scripts:ro
+      - ./artifacts/performance:/results
+
+  zap:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    profiles: ["security"]
+    volumes:
+      - ./artifacts/security:/zap/wrk:rw
